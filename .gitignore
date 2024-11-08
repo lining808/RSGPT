@@ -1,0 +1,8 @@
+save/
+txts/
+acc.txt
+deepspeed.yaml
+train.py
+datasets/rxngpt_dataset_pretrain.py
+configs/pretrain.yml
+configs/rxngpt_finetune.yml
