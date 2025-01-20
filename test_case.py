@@ -76,10 +76,10 @@ def beam_search_gpt(model, tokenizer, s, beam_size=10, max_length=50,device=devi
 
 maxlen = 100
 cfg = args_parse('/home/xinda/R/configs/rxngpt.yml')
-tokenizer = SMILESBPETokenizer.get_hf_tokenizer("/home/xinda/rxngpt/t.json", model_max_length=maxlen)
+tokenizer = SMILESBPETokenizer.get_hf_tokenizer("/home/xinda/codes/rxn_finetune/t.json", model_max_length=maxlen)
 
 
-pt_path = 'pretrain.pth'
+pt_path = '/home/xinda/codes/rxn_finetune/save/pretrain.pth'
 
 def stand(smi):
     m = Chem.MolFromSmiles(smi)

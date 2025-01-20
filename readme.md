@@ -6,7 +6,7 @@ Available retrosynthesis data are limited to only millions. Therefore, we pionee
 
 - [Installation](#installation)
 - [Usage](#usage)
-
+- [Model and Data Availability](#model-and-data-availability)
 ## Installation
 
 Instructions on how to install and set up the project.
@@ -45,3 +45,18 @@ write2txt(\
     test_aug=False      # data with augmentation
     )
 ```
+
+**Train**
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --main_process_port Process_Port --config_file deepspeed.yaml train.py
+```
+
+## Model and Data Availability
+USPTO-data：
+https://drive.google.com/drive/folders/1mhBFA9zvfBr8F9IE0W9CFWuiMN9WqTCF?usp=drive_link
+
+RSGPT_Weight:
+https://drive.google.com/drive/folders/1-5zdzDWFzZANLS9r4YlSww9Gp-ot5KPp?usp=drive_link
+
+MakeData.pickle：
+https://drive.google.com/file/d/1-TW2r5BokKXLDVDEPzRXBhzbtX6sQ4xy/view?usp=sharing

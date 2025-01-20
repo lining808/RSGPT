@@ -78,7 +78,6 @@ class RxnGPTDataset(Dataset):
         )
 
         
-    ######## 一定要有
     @classmethod
     def build_datasets(cls, cfg, mode):
         return cls(cfg, mode)
