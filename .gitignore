@@ -1,7 +1,1 @@
-save/
-txts/
-acc.txt
-datasets/rxngpt_dataset_pretrain.py
-configs/pretrain.yml
-configs/rxngpt_finetune.yml
-configs/rxngpt_small_llama.json
+
