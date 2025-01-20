@@ -58,5 +58,5 @@ https://drive.google.com/drive/folders/1mhBFA9zvfBr8F9IE0W9CFWuiMN9WqTCF?usp=dri
 RSGPT_Weight:
 https://drive.google.com/drive/folders/1-5zdzDWFzZANLS9r4YlSww9Gp-ot5KPp?usp=drive_link
 
-MakeData.pickle：
+Rxn_To_Frags.pickle：
 https://drive.google.com/file/d/1-TW2r5BokKXLDVDEPzRXBhzbtX6sQ4xy/view?usp=sharing
