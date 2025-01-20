@@ -10,13 +10,13 @@ import wandb
 
 
 
-save_folder_path = '/home/xinda/codes/rxn_finetune/save/finetune_50k'
+save_folder_path = ''
 valid = True
 
 os.makedirs(save_folder_path,exist_ok=True)
 class Trainer(object):
     def __init__(self, task, cfg):
-        wandb.init(project="RxnGPT_new_train3")
+        wandb.init(project="project name")
         self.task = task
         self.cfg = cfg
 
@@ -79,21 +79,21 @@ class Trainer(object):
                 self.valid(epoch, self.accelerator, model, self.valid_dataloader, args=self.cfg.SOLVER)
             torch.save(model.state_dict(),'{}/train_epoch_{}.pth'.format(save_folder_path,int(epoch)))
 
-            # if self.cfg.MODEL.PEFT.LoRA:
-            #     # folder_path_i = '{}/train_epoch_{}'.format(save_folder_path,int(epoch))
-            #     # os.makedirs(folder_path_i, exist_ok=True)
-            #     # model.save_pretrained(folder_path_i)
-            #     self.save_model(model, ema_model, epoch=epoch)
-            # else:
-            #     torch.save(model.state_dict(),'{}/train_epoch_{}.pth'.format(save_folder_path,int(epoch)))
+            if self.cfg.MODEL.PEFT.LoRA:
+                # folder_path_i = '{}/train_epoch_{}'.format(save_folder_path,int(epoch))
+                # os.makedirs(folder_path_i, exist_ok=True)
+                # model.save_pretrained(folder_path_i)
+                self.save_model(model, ema_model, epoch=epoch)
+            else:
+                torch.save(model.state_dict(),'{}/train_epoch_{}.pth'.format(save_folder_path,int(epoch)))
 
-            # save
-            # self.accelerator.wait_for_everyone()
-            # if epoch % self.cfg.SOLVER.SAVE_STEP == 0:
-            #     # self.model.save_pretrained(os.path.join('save', self.cfg.save))
-            #     self.save_model(model, ema_model, epoch=epoch)
+            save
+            self.accelerator.wait_for_everyone()
+            if epoch % self.cfg.SOLVER.SAVE_STEP == 0:
+                # self.model.save_pretrained(os.path.join('save', self.cfg.save))
+                self.save_model(model, ema_model, epoch=epoch)
             
-            # self.save_model(model, ema_model, epoch=epoch)
+            self.save_model(model, ema_model, epoch=epoch)
         self.logger.info(f"  =====================================================================================")
         self.logger.info(f"  train finish!  ")
         self.logger.info(f"  =====================================================================================")
@@ -110,7 +110,7 @@ class Trainer(object):
         if ema_model is not None:
             model_dict['ema_model'] = self.accelerator.unwrap_model(ema_model).state_dict()
 
-        # torch.save(model_dict, os.path.join('save', self.cfg.save, save_file_name))
+        torch.save(model_dict, os.path.join('save', self.cfg.save, save_file_name))
 
     def train_epoch(self, train_dataloader, gradient_accumulation_steps, accelerator,
                     model, optimizer, lr_scheduler, progress_bar, args,epoch):
@@ -201,16 +201,16 @@ class Trainer(object):
             valid_loss_mean = np.mean(loss_list)
             if valid_loss_mean < self.valid_min_loss:
                 self.valid_min_loss = valid_loss_mean
-                # self.save_model(model, self.ema.ema, epoch=epoch)
+                self.save_model(model, self.ema.ema, epoch=epoch)
 
 
-                # if self.cfg.MODEL.PEFT.LoRA:
-                #     # folder_path_i = '{}/valid_epoch_{}'.format(save_folder_path,int(epoch))
-                #     # os.makedirs(folder_path_i, exist_ok=True)
-                #     # model.save_pretrained(folder_path_i)
-                #     self.save_model(model, self.ema.ema, epoch=epoch)
-                # else:
-                #     torch.save(model.state_dict(),'{}/valid_epoch_{}.pth'.format(save_folder_path,int(epoch)))
+                if self.cfg.MODEL.PEFT.LoRA:
+                    # folder_path_i = '{}/valid_epoch_{}'.format(save_folder_path,int(epoch))
+                    # os.makedirs(folder_path_i, exist_ok=True)
+                    # model.save_pretrained(folder_path_i)
+                    self.save_model(model, self.ema.ema, epoch=epoch)
+                else:
+                    torch.save(model.state_dict(),'{}/valid_epoch_{}.pth'.format(save_folder_path,int(epoch)))
 
         
             report = {'valid_' + k: float(v) for k, v in log_dict.items()}
@@ -219,34 +219,34 @@ class Trainer(object):
             if accelerator.is_main_process and not self.cfg.debug:
                 wandb.log(report)
 
-    # def valid(self, epoch, accelerator, model, eval_dataloader, args,step):
-    #     model.eval()
-    #     with torch.no_grad():
-    #         loss_list = []
-    #         outputs = []
-    #         for step, item in enumerate(eval_dataloader):
-    #             loss = model(**item)['loss']
-    #             outputs.append({'loss':  loss})
-    #             loss_list.append(loss.clone().cpu().item())
+    def valid(self, epoch, accelerator, model, eval_dataloader, args,step):
+        model.eval()
+        with torch.no_grad():
+            loss_list = []
+            outputs = []
+            for step, item in enumerate(eval_dataloader):
+                loss = model(**item)['loss']
+                outputs.append({'loss':  loss})
+                loss_list.append(loss.clone().cpu().item())
 
-    #             wandb.log({"loss_per_valid_step": loss.clone().cpu().item()}) ###
-    #         log_dict = self.validation_log_dict(outputs)
+                wandb.log({"loss_per_valid_step": loss.clone().cpu().item()}) ###
+            log_dict = self.validation_log_dict(outputs)
 
-    #     valid_loss_mean = np.mean(loss_list)
-    #     if valid_loss_mean < self.valid_min_loss:
-    #         self.valid_min_loss = valid_loss_mean
-    #         # self.save_model(model, self.ema.ema, epoch=epoch)
-    #         if self.cfg.MODEL.PEFT.LoRA:
-    #             # folder_path_i = '{}/valid_epoch_{}'.format(save_folder_path,int(epoch))
-    #             # os.makedirs(folder_path_i, exist_ok=True)
-    #             # model.save_pretrained(folder_path_i)
-    #             self.save_model(model, self.ema.ema, epoch=epoch)
-    #         else:
-    #             torch.save(model.state_dict(),'{}/valid_epoch_{}_step_{}.pth'.format(save_folder_path,int(epoch),int(step)))
+        valid_loss_mean = np.mean(loss_list)
+        if valid_loss_mean < self.valid_min_loss:
+            self.valid_min_loss = valid_loss_mean
+            # self.save_model(model, self.ema.ema, epoch=epoch)
+            if self.cfg.MODEL.PEFT.LoRA:
+                # folder_path_i = '{}/valid_epoch_{}'.format(save_folder_path,int(epoch))
+                # os.makedirs(folder_path_i, exist_ok=True)
+                # model.save_pretrained(folder_path_i)
+                self.save_model(model, self.ema.ema, epoch=epoch)
+            else:
+                torch.save(model.state_dict(),'{}/valid_epoch_{}_step_{}.pth'.format(save_folder_path,int(epoch),int(step)))
 
      
-    #     report = {'valid_' + k: float(v) for k, v in log_dict.items()}
-    #     report['epoch'] = epoch
-    #     self.logger.info(report)
-    #     if accelerator.is_main_process and not self.cfg.debug:
-    #         wandb.log(report)
+        report = {'valid_' + k: float(v) for k, v in log_dict.items()}
+        report['epoch'] = epoch
+        self.logger.info(report)
+        if accelerator.is_main_process and not self.cfg.debug:
+            wandb.log(report)
