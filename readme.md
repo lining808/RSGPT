@@ -60,3 +60,5 @@ https://drive.google.com/drive/folders/1-5zdzDWFzZANLS9r4YlSww9Gp-ot5KPp?usp=dri
 
 Rxn_To_Frags.pickle：
 https://drive.google.com/file/d/1-TW2r5BokKXLDVDEPzRXBhzbtX6sQ4xy/view?usp=sharing
+(This is a part of the {Reactants in the template: [Matched molecular fragments]} that we use in the data generation stage for reference, so that you can use your own templates and molecular fragment libraries to efficiently generate data.)
+
