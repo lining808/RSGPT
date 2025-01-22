@@ -13,7 +13,7 @@ Instructions on how to install and set up the project.
 
 ```bash
 # Clone the repository
-git clone https://github.com/Zhao-Xinda/RSGPT.git
+git clone https://github.com/jogjogee/RSGPT/
 
 # Navigate to the project directory
 cd yourproject
