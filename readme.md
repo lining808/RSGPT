@@ -52,12 +52,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --main_process_port Proce
 ```
 
 ## Model and Data Availability
-USPTO-data：
-https://drive.google.com/drive/folders/1mhBFA9zvfBr8F9IE0W9CFWuiMN9WqTCF?usp=drive_link
-
-RSGPT_Weight:
-https://drive.google.com/drive/folders/1-5zdzDWFzZANLS9r4YlSww9Gp-ot5KPp?usp=drive_link
-
+USPTO datasets, the weight files of RSGPT and the results of augmentation test were uploaded to Zenodo (https://sandbox.zenodo.org/records/203391).  The synthetic data generated in this study were uploaded to Zenodo (https://sandbox.zenodo.org/records/213324).
 Rxn_To_Frags.pickle：
 https://drive.google.com/file/d/1-TW2r5BokKXLDVDEPzRXBhzbtX6sQ4xy/view?usp=sharing
 (This is a part of the {Reactants in the template: [Matched molecular fragments]} that we use in the data generation stage for reference, so that you can use your own templates and molecular fragment libraries to efficiently generate data.)
