@@ -27,11 +27,9 @@ conda env create -f environment.yml
 **For Custom Data**
 ```
 # Modify the input and model paths in the code file
-python test_case.py
+python infer.py
 
-cases = [
-"N#CC1=C(OCC(C)C)C=CC(C2=NC(C)=C(C(O)=O)S2)=C1"
-]
+smiles = 'N#CC1=C(OCC(C)C)C=CC(C2=NC(C)=C(C(O)=O)S2)=C1'
 ```
 
 **For Uspto Data**
